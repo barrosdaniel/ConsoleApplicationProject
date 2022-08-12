@@ -78,6 +78,4 @@ public abstract class Vehicle {
     public void setOwnerABN(int ownerABN) {
         this.ownerABN = ownerABN;
     }
-
-
 }
