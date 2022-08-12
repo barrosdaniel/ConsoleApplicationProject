@@ -1,6 +1,6 @@
 package VehicleRegistration;
 
-public class Owner {
+public abstract class Owner {
     private String name;
     private String address;
     private  String phoneNumber;
@@ -37,10 +37,5 @@ public class Owner {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("Owner {Name: %s, Address: %s, Phone number: %s}\n", getName(), getAddress(), getPhoneNumber());
     }
 }

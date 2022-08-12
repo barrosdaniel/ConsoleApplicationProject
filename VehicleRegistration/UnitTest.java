@@ -3,11 +3,11 @@ package VehicleRegistration;
 import java.util.ArrayList;
 
 public class UnitTest {
-    private static ArrayList<Owner> owners = new ArrayList<>();
-    private static ArrayList<Vehicle> vehicles = new ArrayList<>();
+    private static final ArrayList<Owner> owners = new ArrayList<>();
+    private static final ArrayList<Vehicle> vehicles = new ArrayList<>();
 
     public static void main(String[] args) {
-        owners.add(new Owner("Jamal Abdul", "1 Spencer St", "0411 111 111"));
+        owners.add(new PrivateOwner("Jamie Harold", "1 Macquarie St", "0411 111 111", 1001, "20/01/2000"));
 
         for (Owner o : owners) {
             System.out.println(o);
