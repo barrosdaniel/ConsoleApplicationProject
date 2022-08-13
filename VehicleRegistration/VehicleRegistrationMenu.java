@@ -1,18 +1,21 @@
 package VehicleRegistration;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class VehicleRegistrationMenu {
 
-    final int ENTER_OWNER = 1;
-    final int ENTER_VEHICLE = 2;
-    final int SEARCH_OWNER = 3;
-    final int SEARCH_VEHICLE = 4;
-    final int EXIT = 5;
+    private final int ENTER_OWNER = 1;
+    private final int ENTER_VEHICLE = 2;
+    private final int SEARCH_OWNER = 3;
+    private final int SEARCH_VEHICLE = 4;
+    private final int EXIT = 5;
+    private final ArrayList<Owner> owners = new ArrayList<>();
+    private final ArrayList<Vehicle> vehicles = new ArrayList<>();
+    Scanner input = new Scanner(System.in);
 
     // TODO -- declare any further constants
-    // TODO -- declare an ArrayList of Owner and Vehicle objects
-        
+
     private boolean isStringNumeric(String str) {
 	    for (int i = 0; i < str.length(); i++) {
             if (!Character.isDigit(str.charAt(i))) {
@@ -68,9 +71,62 @@ public class VehicleRegistrationMenu {
     }
          
     private void enterOwnerRecord() {
-        // TODO -- read in the owner details
+        // Read in the owner details
+        String ownerType = getOwnerType();
+        int id;
+        String dob;
+        int abn;
+        String name;
+        String address;
+        String phoneNumber;
+        if (ownerType.equalsIgnoreCase("p")) {
+            id = getOwnerID();
+            dob = getOwnerDOB();
+        } else if (ownerType.equalsIgnoreCase("c")) {
+            abn = getOwnerABN();
+        }
+        name = getOwnerName();
+        address = getOwnerAddress();
+        phoneNumber = getOwnerPhoneNumber();
         // TODO -- Create a Owner object and add it to the ArrayList
         // TODO -- Display owner information
+    }
+
+    private String getOwnerType() {
+        System.out.print("\nPlease enter the type of the owner (press p for " +
+                "private, press c for corporate): ");
+        return input.nextLine();
+    }
+
+    private int getOwnerID() {
+        System.out.print("Please enter owner ID: ");
+        return input.nextInt();
+    }
+
+    private String getOwnerDOB() {
+        input.nextLine(); // Avoid Java String after int input bug
+        System.out.print("Please enter owner date of birth: ");
+        return input.nextLine();
+    }
+
+    private int getOwnerABN() {
+        System.out.print("Please enter owner ABN: ");
+        return input.nextInt();
+    }
+
+    private String getOwnerName() {
+        System.out.print("Please enter owner name: ");
+        return input.nextLine();
+    }
+
+    private String getOwnerAddress() {
+        System.out.print("Please enter owner address: ");
+        return input.nextLine();
+    }
+
+    private String getOwnerPhoneNumber() {
+        System.out.print("Please enter phone number: ");
+        return input.nextLine();
     }
     
     private void enterVehicleRecord() {
@@ -95,6 +151,7 @@ public class VehicleRegistrationMenu {
 
     public static void main(String[] args) {
         VehicleRegistrationMenu app = new VehicleRegistrationMenu();
+        System.out.println("Welcome to the TMR Vehicle Registration System");
 	    app.processOrders();
     }
 }
