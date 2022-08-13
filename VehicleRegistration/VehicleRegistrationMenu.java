@@ -73,12 +73,13 @@ public class VehicleRegistrationMenu {
     private void enterOwnerRecord() {
         // Read in the owner details
         String ownerType = getOwnerType();
-        int id;
-        String dob;
-        int abn;
+        int id = 0;
+        String dob = null;
+        int abn = 0;
         String name;
         String address;
         String phoneNumber;
+        Owner newOwner;
         if (ownerType.equalsIgnoreCase("p")) {
             id = getOwnerID();
             dob = getOwnerDOB();
@@ -88,8 +89,16 @@ public class VehicleRegistrationMenu {
         name = getOwnerName();
         address = getOwnerAddress();
         phoneNumber = getOwnerPhoneNumber();
-        // TODO -- Create a Owner object and add it to the ArrayList
-        // TODO -- Display owner information
+        // Create an Owner object and add it to the ArrayList
+        if (ownerType.equalsIgnoreCase("p")) {
+            newOwner = new PrivateOwner(name, address, phoneNumber, id, dob);
+            owners.add(newOwner);
+        } else {
+            newOwner = new CorporateOwner(name, address, phoneNumber, abn);
+            owners.add(newOwner);
+        }
+        // Display owner information
+        displayOwnerInformation(newOwner, ownerType);
     }
 
     private String getOwnerType() {
@@ -100,18 +109,17 @@ public class VehicleRegistrationMenu {
 
     private int getOwnerID() {
         System.out.print("Please enter owner ID: ");
-        return input.nextInt();
+        return Integer.parseInt(input.nextLine());
     }
 
     private String getOwnerDOB() {
-        input.nextLine(); // Avoid Java String after int input bug
         System.out.print("Please enter owner date of birth: ");
         return input.nextLine();
     }
 
     private int getOwnerABN() {
         System.out.print("Please enter owner ABN: ");
-        return input.nextInt();
+        return Integer.parseInt(input.nextLine());
     }
 
     private String getOwnerName() {
@@ -127,6 +135,25 @@ public class VehicleRegistrationMenu {
     private String getOwnerPhoneNumber() {
         System.out.print("Please enter phone number: ");
         return input.nextLine();
+    }
+
+    private void displayOwnerInformation(Owner newOwner, String ownerType) {
+        if (ownerType.equalsIgnoreCase("p")) {
+            PrivateOwner privateOwner = (PrivateOwner) newOwner;
+            System.out.printf("\n%-12s %-16s %-16s %-32s %-14s","ID",
+                "Date of Birth", "Name", "Address", "Phone Number");
+            System.out.printf("\n%-12s %-16s %-16s %-32s %-14s\n",
+                    privateOwner.getId(), privateOwner.getDateOfBirth(),
+                    privateOwner.getName(), privateOwner.getAddress(),
+                    privateOwner.getPhoneNumber());
+        } else {
+            CorporateOwner corporateOwner = (CorporateOwner) newOwner;
+            System.out.printf("\n%-16s %-16s %-32s %-14s","ABN",
+                    "Name", "Address", "Phone Number");
+            System.out.printf("\n%-16s %-16s %-32s %-14s\n",
+                    corporateOwner.getAbn(), corporateOwner.getName(), corporateOwner.getAddress(),
+                    corporateOwner.getPhoneNumber());
+        }
     }
     
     private void enterVehicleRecord() {
