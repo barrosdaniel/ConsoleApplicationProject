@@ -14,7 +14,6 @@ public class VehicleRegistrationMenu {
     private final ArrayList<Vehicle> vehicles = new ArrayList<>();
     Scanner input = new Scanner(System.in);
 
-    // TODO -- declare any further constants
 
     private boolean isStringNumeric(String str) {
 	    for (int i = 0; i < str.length(); i++) {
@@ -109,7 +108,17 @@ public class VehicleRegistrationMenu {
 
     private int getOwnerID() {
         System.out.print("Please enter owner ID: ");
-        return Integer.parseInt(input.nextLine());
+        int ownerID = Integer.parseInt(input.nextLine());
+        for (Owner o : owners) {
+            if (o instanceof PrivateOwner) {
+                if (((PrivateOwner) o).getId() == ownerID) {
+                    System.out.println("ERROR: An owner with this ID already " +
+                            "exists. Please try again.");
+                    getOwnerID();
+                }
+            }
+        }
+        return ownerID;
     }
 
     private String getOwnerDOB() {
@@ -119,7 +128,17 @@ public class VehicleRegistrationMenu {
 
     private int getOwnerABN() {
         System.out.print("Please enter owner ABN: ");
-        return Integer.parseInt(input.nextLine());
+        int ownerABN = Integer.parseInt(input.nextLine());
+        for (Owner o : owners) {
+            if (o instanceof CorporateOwner) {
+                if (((CorporateOwner) o).getAbn() == ownerABN) {
+                    System.out.println("ERROR: An owner with this ABN already" +
+                            " exists. Please try again.");
+                    getOwnerABN();
+                }
+            }
+        }
+        return ownerABN;
     }
 
     private String getOwnerName() {
@@ -157,9 +176,121 @@ public class VehicleRegistrationMenu {
     }
     
     private void enterVehicleRecord() {
-	    // TODO -- read in the vehicle details
-        // TODO -- Create a Vehicle object and add it to the ArrayList
-        // TODO -- Display vehicle information
+	    // Read in the vehicle details
+        String vehicleType;
+        String plateNumber;
+        String make;
+        String model;
+        int year;
+        boolean isPrivate;
+        int ownerID = 0;
+        int ownerABN = 0;
+        int numberOfSeats = 0;
+        int loadCapacity = 0;
+        Vehicle newVehicle;
+        plateNumber = getVehiclePlateNumber();
+        vehicleType = getVehicleType();
+        if (vehicleType.equalsIgnoreCase("l")) {
+            numberOfSeats = getVehicleNumberOfSeats();
+        } else if (vehicleType.equalsIgnoreCase("h")) {
+            loadCapacity = getVehicleLoadCapacity();
+        }
+        make = getVehicleMake();
+        model = getVehicleModel();
+        year = getVehicleYear();
+        if (getOwnerType().equalsIgnoreCase("p")) {
+            isPrivate = true;
+            System.out.print("Please enter owner ID: ");
+            ownerID = Integer.parseInt(input.nextLine());
+        } else {
+            isPrivate = false;
+            System.out.print("Please enter owner ABN: ");
+            ownerABN = Integer.parseInt(input.nextLine());
+        }
+
+        // Create a Vehicle object and add it to the ArrayList
+        if (vehicleType.equalsIgnoreCase("l")) {
+            newVehicle = new LightVehicle(plateNumber, make, model, year,
+                    isPrivate, ownerID, ownerABN, numberOfSeats);
+            vehicles.add(newVehicle);
+        } else {
+            newVehicle = new HeavyVehicle(plateNumber, make, model, year,
+                    isPrivate, ownerID, ownerABN, loadCapacity);
+            vehicles.add(newVehicle);
+        }
+        // Display vehicle information
+        displayVehicleInformation(newVehicle, vehicleType);
+    }
+
+    private String getVehicleType() {
+        System.out.print("\nPlease enter the type of the vehicle (press l " +
+                "for light, press h for heavy: ");
+        return input.nextLine();
+    }
+
+    private String getVehiclePlateNumber() {
+        System.out.print("Please enter the vehicle plate number: ");
+        return input.nextLine();
+    }
+
+    private int getVehicleNumberOfSeats() {
+        System.out.print("Please enter number of seats: ");
+        return Integer.parseInt(input.nextLine());
+    }
+
+    private int getVehicleLoadCapacity() {
+        System.out.print("Please enter capacity: ");
+        return Integer.parseInt(input.nextLine());
+    }
+
+    private String getVehicleMake() {
+        System.out.print("Please enter the vehicle make: ");
+        return input.nextLine();
+    }
+
+    private String getVehicleModel() {
+        System.out.print("Please enter the vehicle model: ");
+        return input.nextLine();
+    }
+
+    private int getVehicleYear() {
+        System.out.print("Please enter the vehicle year: ");
+        return Integer.parseInt(input.nextLine());
+    }
+
+    private void displayVehicleInformation(Vehicle newVehicle,
+                                           String vehicleType) {
+        String vehicleTypeLabel;
+        int ownerIdentifier = 0;
+        if (vehicleType.equalsIgnoreCase("p")) {
+            vehicleTypeLabel = "Private";
+            ownerIdentifier = newVehicle.getOwnerId();
+        } else {
+            vehicleTypeLabel = "Corporate";
+            ownerIdentifier = newVehicle.getOwnerABN();
+        }
+
+        if (vehicleType.equalsIgnoreCase("l")) {
+            LightVehicle lightVehicle = (LightVehicle) newVehicle;
+            System.out.printf("\n%-14s %-12s %-12s %-12s %-6s %-12s %-12s",
+                    "Plate Number", "No of Seats", "Make", "Model", "Year",
+                    "OwnerType", "Owner ID/ABN");
+            System.out.printf("\n%-14s %-12s %-12s %-12s %-6s %-12s %-12s",
+                    lightVehicle.getPlateNumber(),
+                    lightVehicle.getNumberOfSeats(), lightVehicle.getMake(),
+                    lightVehicle.getModel(), lightVehicle.getYear(),
+                    vehicleTypeLabel, ownerIdentifier);
+        } else {
+            HeavyVehicle heavyVehicle = (HeavyVehicle) newVehicle;
+            System.out.printf("\n%-14s %-12s %-12s %-12s %-6s %-12s %-12s",
+                    "Plate Number", "Load Capacity", "Make", "Model", "Year",
+                    "OwnerType", "Owner ID/ABN");
+            System.out.printf("\n%-14s %-12s %-12s %-12s %-6s %-12s %-12s",
+                    heavyVehicle.getPlateNumber(),
+                    heavyVehicle.getLoadCapacity(), heavyVehicle.getMake(),
+                    heavyVehicle.getModel(), heavyVehicle.getYear(),
+                    vehicleTypeLabel, ownerIdentifier);
+        }
     }
 
     private void searchOwner() {
