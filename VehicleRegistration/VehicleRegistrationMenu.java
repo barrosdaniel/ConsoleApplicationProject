@@ -3,6 +3,10 @@ package VehicleRegistration;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Initialises and controls the flow of the Vehicle Registration application
+ * and processes menu choices.
+ */
 public class VehicleRegistrationMenu {
 
     private final int ENTER_OWNER = 1;
@@ -299,7 +303,6 @@ public class VehicleRegistrationMenu {
                     heavyVehicle.getModel(), heavyVehicle.getYear(),
                     vehicleTypeLabel, ownerIdentifier);
         }
-        System.out.println("");
     }
 
     private void searchOwner() {
