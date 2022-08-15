@@ -1,13 +1,16 @@
 package VehicleRegistration;
 
+/**
+ * Abstract class that provides fundamental vehicle owners' member variables
+ * and behaviours.
+ *
+ * @author Daniel Barros - Student ID: 12184305
+ * Updated: 15/08/2022
+ */
 public abstract class Owner {
     private String name;
     private String address;
     private  String phoneNumber;
-
-    public Owner() {
-        this("Name not supplied", "Address not supplied", "Phone number not supplied");
-    }
 
     public Owner(String name, String address, String phoneNumber) {
         setName(name);

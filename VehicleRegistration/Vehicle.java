@@ -1,5 +1,12 @@
 package VehicleRegistration;
 
+    /**
+     * Abstract class that provides fundamental vehicle member variables
+     * and behaviours.
+     *
+     * @author Daniel Barros - Student ID: 12184305
+     * Updated: 15/08/2022
+     */
 public abstract class Vehicle {
     private String plateNumber;
     private String make;
@@ -8,10 +15,6 @@ public abstract class Vehicle {
     private boolean isPrivate;
     private int ownerId;
     private int ownerABN;
-
-    public Vehicle() {
-        this("Plate number not provided", "Make not provided", "Model not provided", 1900, true, 0, 0);
-    }
 
     public Vehicle(String plateNumber, String make, String model, int year, boolean isPrivate, int ownerId, int ownerABN) {
         setPlateNumber(plateNumber);

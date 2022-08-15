@@ -2,6 +2,13 @@ package VehicleRegistration;
 
 import java.util.ArrayList;
 
+/**
+ * Internal Class providing unit testing for the Owner and Vehicles classes
+ * and subclasses.
+ *
+ * @author Daniel Barros - Student ID: 12184305
+ * Updated: 15/08/2022
+ */
 public class UnitTest {
     private static final ArrayList<Owner> owners = new ArrayList<>();
     private static final ArrayList<Vehicle> vehicles = new ArrayList<>();

@@ -6,6 +6,9 @@ import java.util.Scanner;
 /**
  * Initialises and controls the flow of the Vehicle Registration application
  * and processes menu choices.
+ *
+ * @author Daniel Barros - Student ID: 12184305
+ * Updated: 15/08/2022
  */
 public class VehicleRegistrationMenu {
 

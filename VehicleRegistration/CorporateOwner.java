@@ -1,5 +1,12 @@
 package VehicleRegistration;
 
+/**
+ * Concrete class that provides corporate owners' member variables
+ * and behaviours.
+ *
+ * @author Daniel Barros - Student ID: 12184305
+ * Updated: 15/08/2022
+ */
 public class CorporateOwner extends Owner {
     private int abn;
 
