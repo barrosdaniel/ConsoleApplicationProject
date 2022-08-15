@@ -97,7 +97,7 @@ public class VehicleRegistrationMenu {
             owners.add(newOwner);
         }
         // Display owner information
-        displayOwnerInformation(newOwner, ownerType);
+        displayOwnerInformation(newOwner);
     }
 
     private String getOwnerType() {
@@ -156,8 +156,8 @@ public class VehicleRegistrationMenu {
         return input.nextLine();
     }
 
-    private void displayOwnerInformation(Owner newOwner, String ownerType) {
-        if (ownerType.equalsIgnoreCase("p")) {
+    private void displayOwnerInformation(Owner newOwner) {
+        if (newOwner instanceof PrivateOwner) {
             PrivateOwner privateOwner = (PrivateOwner) newOwner;
             System.out.printf("\n%-12s %-16s %-16s %-32s %-14s","ID",
                 "Date of Birth", "Name", "Address", "Phone Number");
@@ -269,7 +269,7 @@ public class VehicleRegistrationMenu {
 
     private void displayVehicleInformation(Vehicle newVehicle) {
         String vehicleTypeLabel;
-        int ownerIdentifier = 0;
+        int ownerIdentifier;
         if (newVehicle.isPrivate()) {
             vehicleTypeLabel = "Private";
             ownerIdentifier = newVehicle.getOwnerId();
@@ -303,10 +303,43 @@ public class VehicleRegistrationMenu {
     }
 
     private void searchOwner() {
-        // TODO -- read the search key
-		// TODO -- loop though the current entries in the ArrayList to search for the search key 
-        // Looping can be done in another method and called from here
-		// TODO -- display the found item or report it has not been found  
+        // Read the search key
+        String ownerType = getOwnerType();
+        int identifier;
+        Owner searchedOwner;
+        if (ownerType.equalsIgnoreCase("p")) {
+            System.out.print("Please enter owner ID: ");
+        } else {
+            System.out.print("Please enter owner ABN: ");
+        }
+        identifier = Integer.parseInt(input.nextLine());
+
+		// Loop though the current entries in the ArrayList to search for the search key
+        searchedOwner = getSearchedOwner(identifier);
+
+		// Display the found item or report it has not been found
+        if (searchedOwner == null) {
+            System.out.println("Record not found.");
+        } else {
+            System.out.println("Record found.");
+            displayOwnerInformation(searchedOwner);
+        }
+    }
+
+    private Owner getSearchedOwner(int identifier) {
+        Owner searchedOwner = null;
+        for (Owner o : owners) {
+            if (o instanceof PrivateOwner) {
+                if (((PrivateOwner) o).getId() == identifier) {
+                    searchedOwner = o;
+                }
+            } else {
+                if (((CorporateOwner) o).getAbn() == identifier) {
+                    searchedOwner = o;
+                }
+            }
+        }
+        return searchedOwner;
     }
 
     private void searchVehicle() {
@@ -320,5 +353,7 @@ public class VehicleRegistrationMenu {
         VehicleRegistrationMenu app = new VehicleRegistrationMenu();
         System.out.println("Welcome to the TMR Vehicle Registration System");
 	    app.processOrders();
+        System.out.println("\nThank you for using the TMR Vehicle " +
+                "Registration System");
     }
 }
