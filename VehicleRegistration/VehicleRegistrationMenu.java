@@ -178,7 +178,7 @@ public class VehicleRegistrationMenu {
     private void enterVehicleRecord() {
 	    // Read in the vehicle details
         String vehicleType;
-        String plateNumber;
+        String plateNumber = null;
         String make;
         String model;
         int year;
@@ -188,11 +188,12 @@ public class VehicleRegistrationMenu {
         int numberOfSeats = 0;
         int loadCapacity = 0;
         Vehicle newVehicle;
-        plateNumber = getVehiclePlateNumber();
         vehicleType = getVehicleType();
         if (vehicleType.equalsIgnoreCase("l")) {
+            plateNumber = getVehiclePlateNumber();
             numberOfSeats = getVehicleNumberOfSeats();
         } else if (vehicleType.equalsIgnoreCase("h")) {
+            plateNumber = getVehiclePlateNumber();
             loadCapacity = getVehicleLoadCapacity();
         }
         make = getVehicleMake();
@@ -219,18 +220,26 @@ public class VehicleRegistrationMenu {
             vehicles.add(newVehicle);
         }
         // Display vehicle information
-        displayVehicleInformation(newVehicle, vehicleType);
+        displayVehicleInformation(newVehicle);
     }
 
     private String getVehicleType() {
         System.out.print("\nPlease enter the type of the vehicle (press l " +
-                "for light, press h for heavy: ");
+                "for light, press h for heavy): ");
         return input.nextLine();
     }
 
     private String getVehiclePlateNumber() {
         System.out.print("Please enter the vehicle plate number: ");
-        return input.nextLine();
+        String newVehiclePlateNumber = input.nextLine();
+        for (Vehicle v : vehicles) {
+            if (v.getPlateNumber().equals(newVehiclePlateNumber)) {
+                System.out.println("ERROR: A vehicle with this plate number " +
+                        "already exists. Please try again.");
+                getVehiclePlateNumber();
+            }
+        }
+        return newVehiclePlateNumber;
     }
 
     private int getVehicleNumberOfSeats() {
@@ -258,11 +267,10 @@ public class VehicleRegistrationMenu {
         return Integer.parseInt(input.nextLine());
     }
 
-    private void displayVehicleInformation(Vehicle newVehicle,
-                                           String vehicleType) {
+    private void displayVehicleInformation(Vehicle newVehicle) {
         String vehicleTypeLabel;
         int ownerIdentifier = 0;
-        if (vehicleType.equalsIgnoreCase("p")) {
+        if (newVehicle.isPrivate()) {
             vehicleTypeLabel = "Private";
             ownerIdentifier = newVehicle.getOwnerId();
         } else {
@@ -270,7 +278,7 @@ public class VehicleRegistrationMenu {
             ownerIdentifier = newVehicle.getOwnerABN();
         }
 
-        if (vehicleType.equalsIgnoreCase("l")) {
+        if (newVehicle instanceof LightVehicle) {
             LightVehicle lightVehicle = (LightVehicle) newVehicle;
             System.out.printf("\n%-14s %-12s %-12s %-12s %-6s %-12s %-12s",
                     "Plate Number", "No of Seats", "Make", "Model", "Year",
@@ -282,15 +290,16 @@ public class VehicleRegistrationMenu {
                     vehicleTypeLabel, ownerIdentifier);
         } else {
             HeavyVehicle heavyVehicle = (HeavyVehicle) newVehicle;
-            System.out.printf("\n%-14s %-12s %-12s %-12s %-6s %-12s %-12s",
+            System.out.printf("\n%-14s %-14s %-12s %-12s %-6s %-12s %-12s",
                     "Plate Number", "Load Capacity", "Make", "Model", "Year",
                     "OwnerType", "Owner ID/ABN");
-            System.out.printf("\n%-14s %-12s %-12s %-12s %-6s %-12s %-12s",
+            System.out.printf("\n%-14s %-14s %-12s %-12s %-6s %-12s %-12s",
                     heavyVehicle.getPlateNumber(),
                     heavyVehicle.getLoadCapacity(), heavyVehicle.getMake(),
                     heavyVehicle.getModel(), heavyVehicle.getYear(),
                     vehicleTypeLabel, ownerIdentifier);
         }
+        System.out.println("");
     }
 
     private void searchOwner() {
