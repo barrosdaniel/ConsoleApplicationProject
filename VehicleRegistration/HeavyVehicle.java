@@ -10,11 +10,6 @@ package VehicleRegistration;
 public class HeavyVehicle extends Vehicle {
     private int loadCapacity;
 
-    public HeavyVehicle() {
-        this("Plate number not provided", "Make not provided", "Model not " +
-                "provided", 1900, false, 0, 0, 0);
-    }
-
     public HeavyVehicle(String plateNumber, String make, String model, int year,
                         boolean isPrivate, int ownerId, int ownerABN,
                         int loadCapacity) {

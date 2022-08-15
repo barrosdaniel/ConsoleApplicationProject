@@ -11,10 +11,6 @@ public class PrivateOwner extends Owner {
     private int id;
     private String dateOfBirth;
 
-    public PrivateOwner() {
-        this("Name not supplied", "Address not supplied", "Phone number not supplied", 0, "DOB not provided");
-    }
-
     public PrivateOwner(String name, String address, String phoneNumber, int id, String dateOfBirth) {
         super(name, address, phoneNumber);
         setId(id);

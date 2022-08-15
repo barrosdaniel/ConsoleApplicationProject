@@ -10,11 +10,6 @@ package VehicleRegistration;
 public class LightVehicle extends Vehicle {
     private int numberOfSeats;
 
-    public LightVehicle() {
-        this("Plate number not provided", "Make not provided", "Model not " +
-                "provided", 1900, true, 0, 0, 0);
-    }
-
     public LightVehicle(String plateNumber, String make, String model, int year,
                         boolean isPrivate, int ownerId, int ownerABN,
                         int numberOfSeats) {

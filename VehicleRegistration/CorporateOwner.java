@@ -10,10 +10,6 @@ package VehicleRegistration;
 public class CorporateOwner extends Owner {
     private int abn;
 
-    public CorporateOwner() {
-        this("Name not supplied", "Address not supplied", "Phone number not supplied", 0);
-    }
-
     public CorporateOwner(String name, String address, String phoneNumber, int abn) {
         super(name, address, phoneNumber);
         setAbn(abn);

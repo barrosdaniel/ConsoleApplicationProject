@@ -11,6 +11,12 @@ import java.util.Scanner;
  * Updated: 15/08/2022
  */
 public class VehicleRegistrationMenu {
+    // TODO 1: Make search case insensitive
+    // TODO 2: Add data validation loops
+    // TODO 3: Write javadocs for methods
+    // TODO 4: Merge to CQU Class Github repo
+    // TODO 5: Write report with testing results, how long it took to develop,
+    //  and any problems encountered
 
     private final int ENTER_OWNER = 1;
     private final int ENTER_VEHICLE = 2;
