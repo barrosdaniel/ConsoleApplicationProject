@@ -343,17 +343,42 @@ public class VehicleRegistrationMenu {
     }
 
     private void searchVehicle() {
-        // TODO -- read the search key
-		// TODO -- loop though the current entries in the ArrayList to search for the search key
-         // Looping can be done in another method and called from here
-		// TODO -- display the found item or report it has not been found
+        String searchedVehiclePlateNumber;
+        Vehicle searchedVehicle;
+        // Read the search key
+        System.out.print("Please enter the vehicle plate number: ");
+        searchedVehiclePlateNumber = input.nextLine();
+
+		// Loop though the current entries in the ArrayList to search for the search key
+        searchedVehicle = getSearchedVehicle(searchedVehiclePlateNumber);
+
+		// Display the found item or report it has not been found
+        if (searchedVehicle == null) {
+            System.out.println("Record not found.");
+        } else {
+            System.out.println("Record found.");
+            displayVehicleInformation(searchedVehicle);
+        }
+
+    }
+
+    private Vehicle getSearchedVehicle(String searchedVehiclePlateNumber) {
+        Vehicle searchedVehicle = null;
+        for (Vehicle v : vehicles) {
+            if (v.getPlateNumber().equals(searchedVehiclePlateNumber)) {
+                searchedVehicle = v;
+            }
+        }
+        return searchedVehicle;
     }
 
     public static void main(String[] args) {
         VehicleRegistrationMenu app = new VehicleRegistrationMenu();
         System.out.println("Welcome to the TMR Vehicle Registration System");
 	    app.processOrders();
-        System.out.println("\nThank you for using the TMR Vehicle " +
-                "Registration System");
+        System.out.println("""
+                
+                Thank you for using the TMR Vehicle Registration System
+                Program written by Daniel Barros 12184305""");
     }
 }
