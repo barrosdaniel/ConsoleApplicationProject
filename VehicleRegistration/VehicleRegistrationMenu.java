@@ -162,8 +162,20 @@ public class VehicleRegistrationMenu {
     }
 
     private String getOwnerDOB() {
-        System.out.print("Please enter owner date of birth: ");
-        return input.nextLine();
+        String ownerDOB;
+        boolean isDOBValid;
+        do {
+            System.out.print("Please enter owner date of birth: ");
+            ownerDOB = input.nextLine();
+            if (ownerDOB.equals("")) {
+                System.out.println("ERROR: Date of Birth must be entered. " +
+                        "Please try again.");
+                isDOBValid = false;
+            } else {
+                isDOBValid = true;
+            }
+        } while (!isDOBValid);
+        return ownerDOB;
     }
 
     private int getOwnerABN() {
