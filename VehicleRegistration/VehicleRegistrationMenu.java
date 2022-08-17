@@ -113,9 +113,20 @@ public class VehicleRegistrationMenu {
     }
 
     private String getOwnerType() {
-        System.out.print("\nPlease enter the type of the owner (press p for " +
-                "private, press c for corporate): ");
-        return input.nextLine();
+        String ownerType;
+        boolean ownerIsValid;
+        do {
+            System.out.print("\nPlease enter the type of the owner (press p for " +
+                    "private, press c for corporate): ");
+            ownerType = input.nextLine();
+            if (!ownerType.equalsIgnoreCase("p") && !ownerType.equalsIgnoreCase("c")) {
+                System.out.println("Invalid entry. Please try again.");
+                ownerIsValid = false;
+            } else {
+                ownerIsValid = true;
+            }
+        } while (!ownerIsValid);
+        return ownerType;
     }
 
     private int getOwnerID() {
