@@ -11,7 +11,6 @@ import java.util.Scanner;
  * Updated: 15/08/2022
  */
 public class VehicleRegistrationMenu {
-    // TODO 1: Make search case insensitive
     // TODO 2: Add data validation loops
     // TODO 3: Write javadocs for methods
     // TODO 4: Merge to CQU Class Github repo
@@ -377,7 +376,7 @@ public class VehicleRegistrationMenu {
     private Vehicle getSearchedVehicle(String searchedVehiclePlateNumber) {
         Vehicle searchedVehicle = null;
         for (Vehicle v : vehicles) {
-            if (v.getPlateNumber().equals(searchedVehiclePlateNumber)) {
+            if (v.getPlateNumber().equalsIgnoreCase(searchedVehiclePlateNumber)) {
                 searchedVehicle = v;
             }
         }
