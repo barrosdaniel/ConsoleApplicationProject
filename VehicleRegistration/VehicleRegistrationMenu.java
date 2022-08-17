@@ -130,8 +130,25 @@ public class VehicleRegistrationMenu {
     }
 
     private int getOwnerID() {
-        System.out.print("Please enter owner ID: ");
-        int ownerID = Integer.parseInt(input.nextLine());
+        int ownerID = 0;
+        boolean idIsValid;
+        do {
+            try {
+                System.out.print("Please enter owner ID: ");
+                ownerID = Integer.parseInt(input.nextLine());
+                if (ownerID <= 0) {
+                    System.out.println("ERROR: Invalid entry. Owner ID must be a " +
+                            "numerical positive value. Please try again.");
+                    idIsValid = false;
+                } else {
+                    idIsValid = true;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("ERROR: Invalid entry. Owner ID must be " +
+                        "a numerical positive value. Please try again.");
+                idIsValid = false;
+            }
+        } while (!idIsValid);
         for (Owner o : owners) {
             if (o instanceof PrivateOwner) {
                 if (((PrivateOwner) o).getId() == ownerID) {
