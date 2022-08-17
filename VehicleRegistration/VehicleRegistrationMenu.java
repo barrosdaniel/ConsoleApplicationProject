@@ -179,8 +179,25 @@ public class VehicleRegistrationMenu {
     }
 
     private int getOwnerABN() {
-        System.out.print("Please enter owner ABN: ");
-        int ownerABN = Integer.parseInt(input.nextLine());
+        int ownerABN = 0;
+        boolean isABNValid;
+        do {
+            try {
+                System.out.print("Please enter owner ABN: ");
+                ownerABN = Integer.parseInt(input.nextLine());
+                if (ownerABN <= 0) {
+                    System.out.println("ERROR: Invalid entry. Owner ABN must " +
+                            "be a numerical positive value. Please try again.");
+                    isABNValid = false;
+                } else {
+                    isABNValid = true;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("ERROR: Invalid entry. Owner ABN must " +
+                        "be a numerical positive value. Please try again.");
+                isABNValid = false;
+            }
+        } while (!isABNValid);
         for (Owner o : owners) {
             if (o instanceof CorporateOwner) {
                 if (((CorporateOwner) o).getAbn() == ownerABN) {
@@ -194,18 +211,54 @@ public class VehicleRegistrationMenu {
     }
 
     private String getOwnerName() {
-        System.out.print("Please enter owner name: ");
-        return input.nextLine();
+        String ownerName;
+        boolean isNameValid;
+        do {
+            System.out.print("Please enter owner name: ");
+            ownerName = input.nextLine();
+            if (ownerName.equals("")) {
+                System.out.println("ERROR: Name must be entered. " +
+                        "Please try again.");
+                isNameValid = false;
+            } else {
+                isNameValid = true;
+            }
+        } while (!isNameValid);
+        return ownerName;
     }
 
     private String getOwnerAddress() {
-        System.out.print("Please enter owner address: ");
-        return input.nextLine();
+        String ownerAddress;
+        boolean isAddressValid;
+        do {
+            System.out.print("Please enter owner address: ");
+            ownerAddress = input.nextLine();
+            if (ownerAddress.equals("")) {
+                System.out.println("ERROR: Address must be entered. " +
+                        "Please try again.");
+                isAddressValid = false;
+            } else {
+                isAddressValid = true;
+            }
+        } while (!isAddressValid);
+        return ownerAddress;
     }
 
     private String getOwnerPhoneNumber() {
-        System.out.print("Please enter phone number: ");
-        return input.nextLine();
+        String ownerPhoneNumber;
+        boolean isPhoneNumberValid;
+        do {
+            System.out.print("Please enter phone number: ");
+            ownerPhoneNumber = input.nextLine();
+            if (ownerPhoneNumber.equals("")) {
+                System.out.println("ERROR: Phone Number must be entered. " +
+                        "Please try again.");
+                isPhoneNumberValid = false;
+            } else {
+                isPhoneNumberValid = true;
+            }
+        } while (!isPhoneNumberValid);
+        return ownerPhoneNumber;
     }
 
     private void displayOwnerInformation(Owner newOwner) {
