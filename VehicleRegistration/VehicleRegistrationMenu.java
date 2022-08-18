@@ -92,10 +92,10 @@ public class VehicleRegistrationMenu {
         String phoneNumber;
         Owner newOwner;
         if (ownerType.equalsIgnoreCase("p")) {
-            id = getOwnerID();
+            id = getOwnerID(true);
             dob = getOwnerDOB();
         } else if (ownerType.equalsIgnoreCase("c")) {
-            abn = getOwnerABN();
+            abn = getOwnerABN(true);
         }
         name = getOwnerName();
         address = getOwnerAddress();
@@ -129,7 +129,7 @@ public class VehicleRegistrationMenu {
         return ownerType;
     }
 
-    private int getOwnerID() {
+    private int getOwnerID(boolean checkExistingID) {
         int ownerID = 0;
         boolean idIsValid;
         do {
@@ -149,12 +149,14 @@ public class VehicleRegistrationMenu {
                 idIsValid = false;
             }
         } while (!idIsValid);
-        for (Owner o : owners) {
-            if (o instanceof PrivateOwner) {
-                if (((PrivateOwner) o).getId() == ownerID) {
-                    System.out.println("ERROR: An owner with this ID already " +
-                            "exists. Please try again.");
-                    getOwnerID();
+        if (checkExistingID) {
+            for (Owner o : owners) {
+                if (o instanceof PrivateOwner) {
+                    if (((PrivateOwner) o).getId() == ownerID) {
+                        System.out.println("ERROR: An owner with this ID already " +
+                                "exists. Please try again.");
+                        getOwnerID(true);
+                    }
                 }
             }
         }
@@ -178,7 +180,7 @@ public class VehicleRegistrationMenu {
         return ownerDOB;
     }
 
-    private int getOwnerABN() {
+    private int getOwnerABN(boolean checkExistingABN) {
         int ownerABN = 0;
         boolean isABNValid;
         do {
@@ -198,12 +200,14 @@ public class VehicleRegistrationMenu {
                 isABNValid = false;
             }
         } while (!isABNValid);
-        for (Owner o : owners) {
-            if (o instanceof CorporateOwner) {
-                if (((CorporateOwner) o).getAbn() == ownerABN) {
-                    System.out.println("ERROR: An owner with this ABN already" +
-                            " exists. Please try again.");
-                    getOwnerABN();
+        if (checkExistingABN){
+            for (Owner o : owners) {
+                if (o instanceof CorporateOwner) {
+                    if (((CorporateOwner) o).getAbn() == ownerABN) {
+                        System.out.println("ERROR: An owner with this ABN already" +
+                                " exists. Please try again.");
+                        getOwnerABN(true);
+                    }
                 }
             }
         }
@@ -248,7 +252,7 @@ public class VehicleRegistrationMenu {
         String ownerPhoneNumber;
         boolean isPhoneNumberValid;
         do {
-            System.out.print("Please enter phone number: ");
+            System.out.print("Please enter owner phone number: ");
             ownerPhoneNumber = input.nextLine();
             if (ownerPhoneNumber.equals("")) {
                 System.out.println("ERROR: Phone Number must be entered. " +
@@ -306,12 +310,10 @@ public class VehicleRegistrationMenu {
         year = getVehicleYear();
         if (getOwnerType().equalsIgnoreCase("p")) {
             isPrivate = true;
-            System.out.print("Please enter owner ID: ");
-            ownerID = Integer.parseInt(input.nextLine());
+            ownerID = getOwnerID(false);
         } else {
             isPrivate = false;
-            System.out.print("Please enter owner ABN: ");
-            ownerABN = Integer.parseInt(input.nextLine());
+            ownerABN = getOwnerABN(false);
         }
 
         // Create a Vehicle object and add it to the ArrayList
@@ -329,14 +331,36 @@ public class VehicleRegistrationMenu {
     }
 
     private String getVehicleType() {
-        System.out.print("\nPlease enter the type of the vehicle (press l " +
-                "for light, press h for heavy): ");
-        return input.nextLine();
+        String vehicleType;
+        boolean isTypeValid;
+        do {
+            System.out.print("\nPlease enter the type of the vehicle (press l " +
+                    "for light, press h for heavy): ");
+            vehicleType = input.nextLine();
+            if (!vehicleType.equalsIgnoreCase("l") && !vehicleType.equalsIgnoreCase("h")) {
+                System.out.println("Invalid entry. Please try again.");
+                isTypeValid = false;
+            } else {
+                isTypeValid = true;
+            }
+        } while (!isTypeValid);
+        return vehicleType;
     }
 
     private String getVehiclePlateNumber() {
-        System.out.print("Please enter the vehicle plate number: ");
-        String newVehiclePlateNumber = input.nextLine();
+        String newVehiclePlateNumber;
+        boolean isPlateNumberValid;
+        do {
+            System.out.print("Please enter the vehicle plate number: ");
+            newVehiclePlateNumber = input.nextLine();
+            if (newVehiclePlateNumber.equals("")) {
+                System.out.println("ERROR: Vehicle plate number must be " +
+                        "entered. Please try again.");
+                isPlateNumberValid = false;
+            } else {
+                isPlateNumberValid = true;
+            }
+        } while (!isPlateNumberValid);
         for (Vehicle v : vehicles) {
             if (v.getPlateNumber().equals(newVehiclePlateNumber)) {
                 System.out.println("ERROR: A vehicle with this plate number " +
@@ -348,28 +372,107 @@ public class VehicleRegistrationMenu {
     }
 
     private int getVehicleNumberOfSeats() {
-        System.out.print("Please enter number of seats: ");
-        return Integer.parseInt(input.nextLine());
+        int vehicleNumberOfSeats = 0;
+        boolean isNumberOfSeatsValid;
+        do {
+            try {
+                System.out.print("Please enter the vehicle number of seats: ");
+                vehicleNumberOfSeats = Integer.parseInt(input.nextLine());
+                if (vehicleNumberOfSeats <= 0) {
+                    System.out.println("ERROR: Invalid entry. Number of seats " +
+                            "must be a numerical positive value. Please try again" +
+                            ".");
+                    isNumberOfSeatsValid = false;
+                } else {
+                    isNumberOfSeatsValid = true;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("ERROR: Invalid entry. Number of seats " +
+                        "must be a numerical positive value. Please try again" +
+                        ".");
+                isNumberOfSeatsValid = false;
+            }
+        } while (!isNumberOfSeatsValid);
+        return vehicleNumberOfSeats;
     }
 
     private int getVehicleLoadCapacity() {
-        System.out.print("Please enter capacity: ");
-        return Integer.parseInt(input.nextLine());
+        int vehicleLoadCapacity = 0;
+        boolean isVehicleLoadCapacityValid;
+        do {
+            try {
+                System.out.print("Please enter the vehicle capacity: ");
+                vehicleLoadCapacity = Integer.parseInt(input.nextLine());
+                if (vehicleLoadCapacity <= 0) {
+                    System.out.println("ERROR: Invalid entry. Number of seats " +
+                            "must be a numerical positive value. Please try again" +
+                            ".");
+                    isVehicleLoadCapacityValid = false;
+                } else {
+                    isVehicleLoadCapacityValid = true;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("ERROR: Invalid entry. Load Capacity must be a numerical positive value. Please try again.");
+                isVehicleLoadCapacityValid = false;
+            }
+        } while (!isVehicleLoadCapacityValid);
+        return vehicleLoadCapacity;
     }
 
     private String getVehicleMake() {
-        System.out.print("Please enter the vehicle make: ");
-        return input.nextLine();
+        String vehicleMake;
+        boolean isVehicleMakeValid;
+        do {
+            System.out.print("Please enter the vehicle make: ");
+            vehicleMake = input.nextLine();
+            if (vehicleMake.equals("")) {
+                System.out.println("ERROR: Vehicle make must be entered. Please try again.");
+                isVehicleMakeValid = false;
+            } else {
+                isVehicleMakeValid = true;
+            }
+        } while (!isVehicleMakeValid);
+        return vehicleMake;
     }
 
     private String getVehicleModel() {
-        System.out.print("Please enter the vehicle model: ");
-        return input.nextLine();
+        String vehicleModel;
+        boolean isVehicleModelValid;
+        do {
+            System.out.print("Please enter the vehicle model: ");
+            vehicleModel = input.nextLine();
+            if (vehicleModel.equals("")) {
+                System.out.println("ERROR: Vehicle model must be entered. Please try again.");
+                isVehicleModelValid = false;
+            } else {
+                isVehicleModelValid = true;
+            }
+        } while (!isVehicleModelValid);
+        return vehicleModel;
     }
 
     private int getVehicleYear() {
-        System.out.print("Please enter the vehicle year: ");
-        return Integer.parseInt(input.nextLine());
+        int vehicleYear = 0;
+        boolean isVehicleYearValid;
+        do {
+            try {
+                System.out.print("Please enter the vehicle year: ");
+                vehicleYear = Integer.parseInt(input.nextLine());
+                if (vehicleYear < 1890) {
+                    System.out.println("ERROR: Invalid entry. Vehicle year " +
+                            "must be at least 1890. Please try again.");
+                    isVehicleYearValid = false;
+                } else {
+                    isVehicleYearValid = true;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("ERROR: Invalid entry. Vehicle year must " +
+                        "be a numerical positive value at least 1890. Please " +
+                        "try again.");
+                isVehicleYearValid = false;
+            }
+        } while (!isVehicleYearValid);
+        return vehicleYear;
     }
 
     private void displayVehicleInformation(Vehicle newVehicle) {
@@ -388,7 +491,7 @@ public class VehicleRegistrationMenu {
             System.out.printf("\n%-14s %-12s %-12s %-12s %-6s %-12s %-12s",
                     "Plate Number", "No of Seats", "Make", "Model", "Year",
                     "OwnerType", "Owner ID/ABN");
-            System.out.printf("\n%-14s %-12s %-12s %-12s %-6s %-12s %-12s",
+            System.out.printf("\n%-14s %-12s %-12s %-12s %-6s %-12s %-12s\n",
                     lightVehicle.getPlateNumber(),
                     lightVehicle.getNumberOfSeats(), lightVehicle.getMake(),
                     lightVehicle.getModel(), lightVehicle.getYear(),
@@ -398,7 +501,7 @@ public class VehicleRegistrationMenu {
             System.out.printf("\n%-14s %-14s %-12s %-12s %-6s %-12s %-12s",
                     "Plate Number", "Load Capacity", "Make", "Model", "Year",
                     "OwnerType", "Owner ID/ABN");
-            System.out.printf("\n%-14s %-14s %-12s %-12s %-6s %-12s %-12s",
+            System.out.printf("\n%-14s %-14s %-12s %-12s %-6s %-12s %-12s\n",
                     heavyVehicle.getPlateNumber(),
                     heavyVehicle.getLoadCapacity(), heavyVehicle.getMake(),
                     heavyVehicle.getModel(), heavyVehicle.getYear(),
@@ -476,13 +579,21 @@ public class VehicleRegistrationMenu {
         return searchedVehicle;
     }
 
-    public static void main(String[] args) {
-        VehicleRegistrationMenu app = new VehicleRegistrationMenu();
+    private void displayWelcomeMessage() {
         System.out.println("Welcome to the TMR Vehicle Registration System");
-	    app.processOrders();
+    }
+
+    private void displayExitMessage() {
         System.out.println("""
                 
                 Thank you for using the TMR Vehicle Registration System
                 Program written by Daniel Barros 12184305""");
+    }
+
+    public static void main(String[] args) {
+        VehicleRegistrationMenu app = new VehicleRegistrationMenu();
+        app.displayWelcomeMessage();
+	    app.processOrders();
+        app.displayExitMessage();
     }
 }
