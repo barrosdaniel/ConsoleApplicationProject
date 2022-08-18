@@ -8,11 +8,9 @@ import java.util.Scanner;
  * and processes menu choices.
  *
  * @author Daniel Barros - Student ID: 12184305
- * Updated: 15/08/2022
+ * Updated: 18/08/2022
  */
 public class VehicleRegistrationMenu {
-    // TODO 2: Add data validation loops
-    // TODO 3: Write javadocs for methods
     // TODO 4: Merge to CQU Class Github repo
     // TODO 5: Write report with testing results, how long it took to develop,
     //  and any problems encountered
@@ -26,7 +24,13 @@ public class VehicleRegistrationMenu {
     private final ArrayList<Vehicle> vehicles = new ArrayList<>();
     Scanner input = new Scanner(System.in);
 
-
+    /**
+     * Checks if a string is numeric. Method used to validate the user's
+     * menu option input.
+     *
+     * @param str to be checked.
+     * @return boolean confirming or denying if the parameter string is numeric.
+     */
     private boolean isStringNumeric(String str) {
 	    for (int i = 0; i < str.length(); i++) {
             if (!Character.isDigit(str.charAt(i))) {
@@ -35,7 +39,10 @@ public class VehicleRegistrationMenu {
         }
 	    return true;
     }
-    
+
+    /**
+     * Gets the user menu item input. Implements user input validation.
+     */
     private int getMenuItem() {
         Scanner inputMenuChoice = new Scanner(System.in);
         
@@ -56,7 +63,11 @@ public class VehicleRegistrationMenu {
 	    }
 	    return Integer.parseInt(choice);
     }
-    
+
+    /**
+     * Implements the main application menu. Initiates user input and
+     * processes menu items by calling private class methods.
+     */
     private void processOrders() {
         int choice = getMenuItem();
 	
@@ -80,7 +91,14 @@ public class VehicleRegistrationMenu {
             choice = getMenuItem();
     	}
     }
-         
+
+    /**
+     * Implements the respective menu item by calling private class methods.
+     * Reads in the owner details, creates an object and add to data
+     * structure (ArrayList) and displays owner information.
+     *
+     * Implements data validation.
+     */
     private void enterOwnerRecord() {
         // Read in the owner details
         String ownerType = getOwnerType();
@@ -112,6 +130,13 @@ public class VehicleRegistrationMenu {
         displayOwnerInformation(newOwner);
     }
 
+    /**
+     * Gets the owner type from user input. Performs data validation by
+     * implementing a do-while loop displaying an error message if the
+     * user entry is different from either "p" or "c".
+     *
+     * @return String owner type (p for private or c for corporate)
+     **/
     private String getOwnerType() {
         String ownerType;
         boolean ownerIsValid;
@@ -129,6 +154,18 @@ public class VehicleRegistrationMenu {
         return ownerType;
     }
 
+    /**
+     * Gets the owner ID from user input. Performs data validation by
+     * implementing a do-while loop displaying an error message if the
+     * user entry is not numeric or not a positive integer. May check if
+     * the ID has previously been assigned to another owner. Only runs if the
+     * user is a private owner.
+     *
+     * @param checkExistingID - boolean representing whether the user input
+     *                        needs to be checked against previously entered
+     *                        owner IDs.
+     * @return - integer representing the owner ID.
+     */
     private int getOwnerID(boolean checkExistingID) {
         int ownerID = 0;
         boolean idIsValid;
@@ -163,6 +200,13 @@ public class VehicleRegistrationMenu {
         return ownerID;
     }
 
+    /**
+     * Gets the owner date of birth (DOB) from user input. Performs data
+     * validation by implementing a do-while loop displaying an error message if the
+     * user entry is an empty string.
+     *
+     * @return - string representing the owner dta of birth.
+     */
     private String getOwnerDOB() {
         String ownerDOB;
         boolean isDOBValid;
@@ -180,6 +224,18 @@ public class VehicleRegistrationMenu {
         return ownerDOB;
     }
 
+    /**
+     * Gets the owner ABN from user input. Performs data validation by
+     * implementing a do-while loop displaying an error message if the
+     * user entry is not numeric or not a positive integer. May check if
+     * the ABN has previously been assigned to another owner. Only runs if the
+     * owner is a corporate owner.
+     *
+     * @param checkExistingABN boolean representing whether the user input
+     *                         needs to be checked against previously entered
+     *                         owner IDs.
+     * @return - integer representing the owner ABN.
+     */
     private int getOwnerABN(boolean checkExistingABN) {
         int ownerABN = 0;
         boolean isABNValid;
@@ -214,6 +270,13 @@ public class VehicleRegistrationMenu {
         return ownerABN;
     }
 
+    /**
+     * Gets the owner name from user input. Performs data validation by
+     * implementing a do-while loop displaying an error message if the user
+     * entry is an empty string.
+     *
+     * @return - string representing the owner name.
+     */
     private String getOwnerName() {
         String ownerName;
         boolean isNameValid;
@@ -231,6 +294,13 @@ public class VehicleRegistrationMenu {
         return ownerName;
     }
 
+    /**
+     * Gets the owner address from user input. Performs data validation by
+     * implementing a do-while loop displaying an error message if the user
+     * entry is an empty string.
+     *
+     * @return - string representing the owner address.
+     */
     private String getOwnerAddress() {
         String ownerAddress;
         boolean isAddressValid;
@@ -248,6 +318,13 @@ public class VehicleRegistrationMenu {
         return ownerAddress;
     }
 
+    /**
+     * Gets the owner phone number from user input. Performs data validation by
+     * implementing a do-while loop displaying an error message if the user
+     * entry is an empty string.
+     *
+     * @return - string representing the owner phone number.
+     */
     private String getOwnerPhoneNumber() {
         String ownerPhoneNumber;
         boolean isPhoneNumberValid;
@@ -265,6 +342,14 @@ public class VehicleRegistrationMenu {
         return ownerPhoneNumber;
     }
 
+    /**
+     * Displays the owner information laid out in a table either after owner
+     * data entry or when owner is searched for. Displays different tables
+     * for private and corporate owners.
+     *
+     * @param newOwner an object representing the new owner entered by the
+     *                 user.
+     */
     private void displayOwnerInformation(Owner newOwner) {
         if (newOwner instanceof PrivateOwner) {
             PrivateOwner privateOwner = (PrivateOwner) newOwner;
@@ -283,7 +368,14 @@ public class VehicleRegistrationMenu {
                     corporateOwner.getPhoneNumber());
         }
     }
-    
+
+    /**
+     * Implements the respective menu item by calling private class methods.
+     * Reads in the vehicle details, creates an object and add to data
+     * structure (ArrayList) and displays owner information.
+     *
+     * Implements data validation.
+     */
     private void enterVehicleRecord() {
 	    // Read in the vehicle details
         String vehicleType;
@@ -330,6 +422,11 @@ public class VehicleRegistrationMenu {
         displayVehicleInformation(newVehicle);
     }
 
+    /**
+     * Gets the vehicle type from user input. Performs data validation by
+     * implementing a do-while loop displaying an error message if the
+     * user entry is different from either "l" or "h".
+     */
     private String getVehicleType() {
         String vehicleType;
         boolean isTypeValid;
@@ -347,6 +444,12 @@ public class VehicleRegistrationMenu {
         return vehicleType;
     }
 
+    /**
+     * Gets the vehicle plate number from user input. Performs data validation
+     * by implementing a do-while loop displaying an error message if the
+     * user entry is an empty string. May check if the plate number has
+     * previously been assigned to another vehicle.
+     */
     private String getVehiclePlateNumber() {
         String newVehiclePlateNumber;
         boolean isPlateNumberValid;
@@ -371,6 +474,12 @@ public class VehicleRegistrationMenu {
         return newVehiclePlateNumber;
     }
 
+    /**
+     * Gets the vehicle number of seats from user input. Performs data
+     * validation by implementing a do-while loop displaying an error message if
+     * the user entry is not numeric or not a positive integer. Only runs if
+     * the vehicle is a light vehicle.
+     */
     private int getVehicleNumberOfSeats() {
         int vehicleNumberOfSeats = 0;
         boolean isNumberOfSeatsValid;
@@ -396,6 +505,12 @@ public class VehicleRegistrationMenu {
         return vehicleNumberOfSeats;
     }
 
+    /**
+     * Gets the vehicle load capacity from user input. Performs data validation
+     * by implementing a do-while loop displaying an error message if the user
+     * entry is not numeric or not a positive integer. Only runs if the vehicle
+     * is a heavy vehicle.
+     */
     private int getVehicleLoadCapacity() {
         int vehicleLoadCapacity = 0;
         boolean isVehicleLoadCapacityValid;
@@ -419,6 +534,11 @@ public class VehicleRegistrationMenu {
         return vehicleLoadCapacity;
     }
 
+    /**
+     * Gets the vehicle make from user input. Performs data validation
+     * by implementing a do-while loop displaying an error message if the
+     * user entry is an empty string.
+     */
     private String getVehicleMake() {
         String vehicleMake;
         boolean isVehicleMakeValid;
@@ -435,6 +555,11 @@ public class VehicleRegistrationMenu {
         return vehicleMake;
     }
 
+    /**
+     * Gets the vehicle model from user input. Performs data validation
+     * by implementing a do-while loop displaying an error message if the
+     * user entry is an empty string.
+     */
     private String getVehicleModel() {
         String vehicleModel;
         boolean isVehicleModelValid;
@@ -451,6 +576,11 @@ public class VehicleRegistrationMenu {
         return vehicleModel;
     }
 
+    /**
+     * Gets the vehicle year from user input. Performs data validation
+     * by implementing a do-while loop displaying an error message if the user
+     * entry is not numeric or less than 1890.
+     */
     private int getVehicleYear() {
         int vehicleYear = 0;
         boolean isVehicleYearValid;
@@ -475,6 +605,14 @@ public class VehicleRegistrationMenu {
         return vehicleYear;
     }
 
+    /**
+     * Displays the vehicle information laid out in a table either after
+     * vehicle data entry or when vehicle is searched for. Displays different
+     * tables for light and heavy vehicles.
+     *
+     * @param newVehicle an object representing the new vehicle entered by the
+     *                   user.
+     */
     private void displayVehicleInformation(Vehicle newVehicle) {
         String vehicleTypeLabel;
         int ownerIdentifier;
@@ -509,6 +647,12 @@ public class VehicleRegistrationMenu {
         }
     }
 
+    /**
+     * Implements the Search Owner functionality. Reads the search key, Loops
+     * through the current entries in the owners ArrayList, and displays the
+     * owner information by calling the displayOwnerInformation() method, when
+     * the owner is found. Otherwise, displays an error message.
+     */
     private void searchOwner() {
         // Read the search key
         String ownerType = getOwnerType();
@@ -533,6 +677,13 @@ public class VehicleRegistrationMenu {
         }
     }
 
+    /**
+     * Gets the relevant Owner object matching the user search key.
+     *
+     * @param identifier - integer representing either the ownerID, if the
+     *                   owner is private, or the ownerABN, if the owner is
+     *                   corporate.
+     */
     private Owner getSearchedOwner(int identifier) {
         Owner searchedOwner = null;
         for (Owner o : owners) {
@@ -549,6 +700,12 @@ public class VehicleRegistrationMenu {
         return searchedOwner;
     }
 
+    /**
+     * Implements the Search Vehicle functionality. Reads the search key, Loops
+     * through the current entries in the vehicles ArrayList, and displays the
+     * owner information by calling the displayOwnerInformation() method, when
+     * the owner is found. Otherwise, displays an error message.
+     */
     private void searchVehicle() {
         String searchedVehiclePlateNumber;
         Vehicle searchedVehicle;
@@ -569,6 +726,12 @@ public class VehicleRegistrationMenu {
 
     }
 
+    /**
+     * Gets the relevant Vehicle object matching the user search key.
+     *
+     * @param searchedVehiclePlateNumber - integer representing the searched
+     *                                   vehicle plate number.
+     */
     private Vehicle getSearchedVehicle(String searchedVehiclePlateNumber) {
         Vehicle searchedVehicle = null;
         for (Vehicle v : vehicles) {
@@ -579,10 +742,16 @@ public class VehicleRegistrationMenu {
         return searchedVehicle;
     }
 
+    /**
+     * Displays a welcome message when the application starts.
+     */
     private void displayWelcomeMessage() {
         System.out.println("Welcome to the TMR Vehicle Registration System");
     }
 
+    /**
+     * Displays an exit welcome message when the application closes.
+     */
     private void displayExitMessage() {
         System.out.println("""
                 
